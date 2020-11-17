@@ -14,20 +14,35 @@ import java.util.concurrent.Executors;
 
 public class MyHttpServer {
 
-    static  class hand implements myHandle {
-        String path;
-
-        public hand(String path){
-            this.path = path;
-        }
-
+    static  class AccountHandler implements myHandle {
         @Override
         public String getPath(){
-            return path;
+            return "/accounts"
+;        }
+
+        @Override
+        public void handle(HttpExchange httpExchange) throws IOException {
+            System.out.println("Account Handler Activated");
+            byte[] readBytes = httpExchange.getRequestBody().readAllBytes();
+            String read = new String(readBytes, StandardCharsets.UTF_8.name());
+            System.out.println("Request Method: " + httpExchange.getRequestMethod());
+            System.out.println("Request Body: " + read);
+            httpExchange.sendResponseHeaders(200, readBytes.length);
+            OutputStream os = httpExchange.getResponseBody();
+            os.write(readBytes);
+            os.flush();
+        }
+
+    }
+    static  class UserHandler implements myHandle {
+        @Override
+        public String getPath(){
+            return "/user";
         }
 
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
+            System.out.println("UserHandler Acctivated");
             byte[] readBytes = httpExchange.getRequestBody().readAllBytes();
             String read = new String(readBytes, StandardCharsets.UTF_8.name());
             System.out.println("Request Method: " + httpExchange.getRequestMethod());
@@ -42,7 +57,7 @@ public class MyHttpServer {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
         
-        List<myHandle> handlers =  List.of(new hand("/accounts"), new hand("/user"));
+        List<myHandle> handlers =  List.of(new AccountHandler(), new UserHandler());
         new myServer(handlers, server);
 
         //myServer.start();

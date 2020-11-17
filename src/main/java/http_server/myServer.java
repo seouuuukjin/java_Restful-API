@@ -11,9 +11,9 @@ public class myServer {
 
     public myServer(List<myHandle> handles, HttpServer server) {
         //this.server = server;
-        for(myHandle hand : handles){
-            System.out.println(hand.getPath());
-            server.createContext(hand.getPath(), hand);
+        for(myHandle handler : handles){
+            System.out.println(handler.getPath());
+            server.createContext(handler.getPath(), handler);
         }
         server.setExecutor(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
         System.out.println("Server starts on localhost:8080");
