@@ -5,7 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.net.URI;
 
-public interface myHandle extends HttpHandler {
+public interface MyHandle extends HttpHandler {
     //boolean match(URI uri);
 
     String getPath();
