@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class MyHttpServer {
-
     static  class AccountHandler extends MyAbstractHandle{
         @Override
         public String getPath(){
@@ -82,7 +81,6 @@ public class MyHttpServer {
             String read = new String(readBytes, StandardCharsets.UTF_8.name());
             System.out.println("Request Method: " + httpExchange.getRequestMethod());
             System.out.println("Request Body: " + read);
-            Js
             httpExchange.sendResponseHeaders(200, readBytes.length);
             OutputStream os = httpExchange.getResponseBody();
             os.write(readBytes);
@@ -95,6 +93,9 @@ public class MyHttpServer {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
         
         List<MyHandle> handlers =  List.of(new AccountHandler(), new UserHandler());
+        DBArray element
+        List<DBArray> arr = SingletonDB.getInstance();
+        arr.add()
         myServer MyLittleBank = new myServer(handlers, server);
         MyLittleBank.start();
 
