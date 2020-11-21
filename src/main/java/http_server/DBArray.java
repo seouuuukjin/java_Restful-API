@@ -9,7 +9,8 @@ public class DBArray{
     public String name;
     public LocalDate birth;
     public String gender;
-    public List<Acnt> acnt;
+    public List<Acnt> acnt = null;
+
     public DBArray (int code, String name, LocalDate birth, String gender, List<Acnt> tmp_Arr){
         this.code = code;
         this.name = name;
@@ -25,4 +26,5 @@ public class DBArray{
         this.birth = birth;
         this.gender = gender;
     }
+
 }
