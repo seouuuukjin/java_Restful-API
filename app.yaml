@@ -1,6 +1,6 @@
 runtime: custom
 env: flex
-service: java_httpServer_seokjin
-threadsafe: true
+service: java-seokjin
+#threadsafe: true
 manual_scaling:
-  instance: 1
+  instances: 1
