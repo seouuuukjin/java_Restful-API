@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class MyHttpServer {
     static  class AccountHandler extends MyAbstractHandle{
@@ -718,7 +719,7 @@ public class MyHttpServer {
 
 
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8080), 0);
         
         List<MyHandle> handlers =  List.of(new AccountHandler(), new UserHandler());
 
@@ -730,6 +731,7 @@ public class MyHttpServer {
 
 
         myServer MyLittleBank = new myServer(handlers, server);
+        server.setExecutor(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
         MyLittleBank.start();
 
     }
