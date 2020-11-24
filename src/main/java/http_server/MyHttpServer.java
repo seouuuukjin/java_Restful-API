@@ -506,6 +506,11 @@ public class MyHttpServer {
 
 
     static  class UserHandler extends MyAbstractHandle {
+        void Print(List<DBArray> arr){
+            for(int ii=0; ii<SingletonDB.getInstance().size(); ii++){
+                System.out.println("row : "+ ii + "[" + arr.get(ii).code + "]||" + "[" + arr.get(ii).name + "]||" + "[" + arr.get(ii).birth + "]||" + "[" + arr.get(ii).acnt.get(0).acnt_num + "]");
+            }
+        }
         @Override
         public String getPath(){
             return "/user";
@@ -640,14 +645,16 @@ public class MyHttpServer {
                 }
             }
 
-            else if(path.endsWith("me")){
+            else if(path.endsWith("/me")){
                 if(httpExchange.getRequestMethod().equals("GET")) {
                     if (Params.length == 1) {
                         List<DBArray> tmp = SingletonDB.getInstance();
                         int target = Integer.parseInt(Params[0]);
                         //System.out.println(target);
+                        int USER_CODE_SUCCESS = 0;
                         for(DBArray elements : tmp){
                             if(elements.code == target){
+                                USER_CODE_SUCCESS = 1;
                                 StringBuilder sb = new StringBuilder();
                                 sb.append("code = " + target);
                                 sb.append("\nname = " + elements.name);
@@ -661,6 +668,15 @@ public class MyHttpServer {
                                 os.flush();
                                 break;
                             }
+                        }
+                        if(USER_CODE_SUCCESS == 0 ){
+                            //wrong USER_CODE Request
+                            String response_str = "Wrong User_code. There is not such code";
+                            httpExchange.sendResponseHeaders(400, response_str.getBytes().length);
+                            httpExchange.getResponseHeaders().set("Content-Type", "text/html");
+                            OutputStream os = httpExchange.getResponseBody();
+                            os.write(response_str.getBytes());
+                            os.flush();
                         }
                     }
                     else{
@@ -688,6 +704,20 @@ public class MyHttpServer {
                     os.write(response_str.getBytes());
                     os.flush();
                 }
+            }
+            else if(path.endsWith("/listAll")){
+                List<DBArray> tmp = SingletonDB.getInstance();
+                StringBuilder sb = new StringBuilder();
+
+                for(int ii=0; ii<SingletonDB.getInstance().size(); ii++){
+                    sb.append("\nrow : "+ ii + "[" + tmp.get(ii).code + "]||" + "[" + tmp.get(ii).name + "]||" + "[" + tmp.get(ii).birth + "]||" + "[" + tmp.get(ii).acnt.get(0).acnt_num + "]");
+
+                }
+                httpExchange.sendResponseHeaders(200, sb.toString().getBytes().length);
+                httpExchange.getResponseHeaders().set("Content-Type", "text/html");
+                OutputStream os = httpExchange.getResponseBody();
+                os.write(sb.toString().getBytes());
+                os.flush();
             }
             else{
                 //page not found
