@@ -7,7 +7,6 @@ import java.io.IOException;
 public abstract class MyAbstractHandle implements MyHandle {
     public String path, param_query;
     abstract public String getPath();
-    //return httpExchange.getRequestURI().getPath();
     @Override
     abstract public void handle(HttpExchange httpExchange) throws IOException;
 

@@ -32,14 +32,10 @@ public class MyHttpServer {
             Parsing(httpExchange);
             System.out.println("Account Handler Activated");
             String[] Params = param_query.split("&");
-            //int i =0;
 
             for(int t=0; t< Params.length; t++){
-                //System.out.println("->" + i);
                 int idx = Params[t].indexOf("=");
                 Params[t] = Params[t].substring(idx+1);
-                //System.out.println(Params[t]);
-                //i++;
             }
 
             if(path.endsWith("/list")){
@@ -49,7 +45,6 @@ public class MyHttpServer {
                         List<DBArray> tmp = SingletonDB.getInstance();
                         int target = Integer.parseInt(Params[0]);
                         int USER_CODE_SUCCESS = 0;
-                        //System.out.println(target);
                         for (DBArray elements : tmp) {
                             if (elements.code == target) {
                                 USER_CODE_SUCCESS = 1;
@@ -108,7 +103,6 @@ public class MyHttpServer {
                     if (Params.length == 2) {
                         List<DBArray> tmp = SingletonDB.getInstance();
                         int USER_CODE_SUCCESS = 0;
-                        //System.out.println(target);
                         for (DBArray elements : tmp) {
                             if (elements.code == Integer.parseInt(Params[0])) {
                                 USER_CODE_SUCCESS = 1;
@@ -180,7 +174,6 @@ public class MyHttpServer {
                         List<DBArray> tmp = SingletonDB.getInstance();
                         int USER_CODE_SUCCESS = 0;
                         int sum = 0;
-                        //System.out.println(target);
                         for (DBArray elements : tmp) {
                             if (elements.code == Integer.parseInt(Params[0])) {
                                 USER_CODE_SUCCESS = 1;
@@ -489,18 +482,11 @@ public class MyHttpServer {
                 os.write(response_str.getBytes());
                 os.flush();
             }
-            //List<DBArray> tmp = SingletonDB.getInstance();
-            //System.out.println("[" + tmp.get(0).code + "]||" + "[" + tmp.get(0).name + "]||" + "[" + tmp.get(0).birth + "]||" + "[" + tmp.get(0).acnt.get(0).acnt_num + "]");
-
             byte[] readBytes = httpExchange.getRequestBody().readAllBytes();
             String read = new String(readBytes, StandardCharsets.UTF_8.name());
             System.out.println("Request Method: " + httpExchange.getRequestMethod());
             System.out.println("Request Body: " + read);
             System.out.println("------------------------------------");
-            //httpExchange.sendResponseHeaders(200, readBytes.length);
-            //OutputStream os = httpExchange.getResponseBody();
-            //os.write(readBytes);
-            //os.flush();
         }
     }
 
@@ -526,27 +512,16 @@ public class MyHttpServer {
             //int i =0;
 
             for(int t=0; t< Params.length; t++){
-                //System.out.println("->" + i);
                 int idx = Params[t].indexOf("=");
                 Params[t] = Params[t].substring(idx+1);
-                //System.out.println(Params[t]);
-                //i++;
             }
 
             if(path.endsWith("/legister")){
-                //System.out.println("~~~~~~~~~~legister IN!!!");
-
                 if(httpExchange.getRequestMethod().equals("POST")) {
                     if (Params.length == 3) {
-                        //System.out.println("RIGHT LEGISTER IN!!!!!!!!!!!!!!!!");
                         int user_code = (int) (Math.random() * 10000); //making random user code to provide
-
-                        //System.out.println("#####");
                         DBArray element = new DBArray(user_code, Params[0], LocalDate.parse(Params[1], DateTimeFormatter.ISO_DATE), Params[2]);
-
-                        //System.out.println("!@");
                         List<DBArray> arr = SingletonDB.getInstance();
-                        //System.out.println("?");
                         arr.add(element);
 
                         StringBuilder sb = new StringBuilder();
@@ -566,12 +541,6 @@ public class MyHttpServer {
                         os.write(response_str.getBytes());
                         os.flush();
                     }
-                /*
-                List<DBArray> tmp = SingletonDB.getInstance();
-                for(int ii=0; ii<SingletonDB.getInstance().size(); ii++){
-                    System.out.println("[" + tmp.get(ii).code + "]||" + "[" + tmp.get(ii).name + "]||" + "[" + tmp.get(ii).birth + "]");
-                }
-                */
                 }
                 else{
                     //WRONG HTTP METHOD
@@ -587,12 +556,9 @@ public class MyHttpServer {
             else if(path.endsWith("/close")){
                 if(httpExchange.getRequestMethod().equals("DELETE")) {
                     if (Params.length == 1) {
-                        //System.out.println("RIGHT CLOSE IN!!!!!!!!!!!!!!!!");
                         List<DBArray> tmp = SingletonDB.getInstance();
-
                         int USER_CODE_SUCCESS = 0;
                         int target = Integer.parseInt(Params[0]);
-                        //System.out.println(target);
                         for(DBArray elements : tmp){
                             if(elements.code == target){
                                 tmp.remove(elements);
@@ -627,12 +593,6 @@ public class MyHttpServer {
                         os.write(response_str.getBytes());
                         os.flush();
                     }
-                /*
-                List<DBArray> tmp = SingletonDB.getInstance();
-                for(int ii=0; ii<SingletonDB.getInstance().size(); ii++){
-                    System.out.println("[" + tmp.get(ii).code + "]||" + "[" + tmp.get(ii).name + "]||" + "[" + tmp.get(ii).birth + "]");
-                }
-                */
                 }
                 else{
                     //WRONG HTTP METHOD
@@ -650,7 +610,6 @@ public class MyHttpServer {
                     if (Params.length == 1) {
                         List<DBArray> tmp = SingletonDB.getInstance();
                         int target = Integer.parseInt(Params[0]);
-                        //System.out.println(target);
                         int USER_CODE_SUCCESS = 0;
                         for(DBArray elements : tmp){
                             if(elements.code == target){
@@ -688,12 +647,6 @@ public class MyHttpServer {
                         os.write(response_str.getBytes());
                         os.flush();
                     }
-                /*
-                List<DBArray> tmp = SingletonDB.getInstance();
-                for(int ii=0; ii<SingletonDB.getInstance().size(); ii++){
-                    System.out.println("[" + tmp.get(ii).code + "]||" + "[" + tmp.get(ii).name + "]||" + "[" + tmp.get(ii).birth + "]");
-                }
-                */
                 }
                 else{
                     //WRONG HTTP METHOD
@@ -727,38 +680,21 @@ public class MyHttpServer {
                 os.write(response_str.getBytes());
                 os.flush();
             }
-
-            //StringBuilder sb = new StringBuilder();
-
             byte[] readBytes = httpExchange.getRequestBody().readAllBytes();
             String read = new String(readBytes, StandardCharsets.UTF_8.name());
             System.out.println("Request Method: " + httpExchange.getRequestMethod());
             System.out.println("Request Body: " + read);
-
-            //sb.append("Request Method: " + httpExchange.getRequestMethod() + "\n");
-            //sb.append("Request Body: " + read + "\n");
-
-            //httpExchange.sendResponseHeaders(200, sb.toString().getBytes().length);
-            //httpExchange.getResponseHeaders().set("Content-Type", "text/html");
-            //OutputStream os = httpExchange.getResponseBody();
-            //os.write(sb.toString().getBytes());
-            //os.flush();
         }
-
     }
-
-
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", 8080), 0);
         
         List<MyHandle> handlers =  List.of(new AccountHandler(), new UserHandler());
 
-
         List<Acnt> myAc = new ArrayList<Acnt>(Arrays.asList(new Acnt("1002850738938", 4,10000000, "checking") ) );
         DBArray element =  new DBArray(1, "kevin", LocalDate.now(), "male", myAc);
         List<DBArray> arr = SingletonDB.getInstance();
         arr.add(element);
-
 
         myServer MyLittleBank = new myServer(handlers, server);
         server.setExecutor(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
